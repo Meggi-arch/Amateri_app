@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Amateri app</string>
+    <string name="log_in">Log in</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="interent">Check your internet connection</string>
+    <string name="error">\"Something went wrong...Error message: \"</string>
+    <string name="comments">Comments</string>
+</resources>

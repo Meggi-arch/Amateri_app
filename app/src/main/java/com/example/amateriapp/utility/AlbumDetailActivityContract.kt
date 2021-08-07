@@ -2,6 +2,7 @@ package com.example.amateriapp.utility
 
 
 import com.example.amateriapp.data.model.AlbumDetail
+import com.example.amateriapp.utility.preferences.SessionManager
 
 interface AlbumDetailActivityContract {
 
@@ -9,7 +10,7 @@ interface AlbumDetailActivityContract {
          * Call when user interact with the view
          * */
         interface Presenter {
-            fun requestDataFromServer()
+             fun requestDataFromServer()
         }
 
         /**
@@ -34,7 +35,7 @@ interface AlbumDetailActivityContract {
                 fun onFailure(t: String)
             }
 
-            fun getNoticeList(onFinishedListener: OnFinishedListener?, sessionManager: SessionManager, id:Int)
+             fun getNoticeList(onFinishedListener: OnFinishedListener?, sessionManager: SessionManager, id:Int)
         }
 
 }

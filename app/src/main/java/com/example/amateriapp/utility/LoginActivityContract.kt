@@ -2,6 +2,7 @@ package com.example.amateriapp.utility
 
 import com.example.amateriapp.data.model.Login
 import com.example.amateriapp.data.model.User
+import com.example.amateriapp.utility.preferences.SessionManager
 
 interface LoginActivityContract {
 
@@ -10,7 +11,7 @@ interface LoginActivityContract {
          * Call when user interact with the view
          * */
         interface Presenter {
-            suspend fun requestDataFromServer()
+            fun requestDataFromServer()
         }
 
         /**

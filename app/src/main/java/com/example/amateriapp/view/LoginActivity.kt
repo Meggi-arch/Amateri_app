@@ -15,7 +15,7 @@ import com.example.amateriapp.databinding.ActivityLoginBinding
 import com.example.amateriapp.presenter.LoginActivityPresenter
 import com.example.amateriapp.repository.LoginRepository
 import com.example.amateriapp.utility.LoginActivityContract
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -32,20 +32,23 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
     @Inject
     var internet: Boolean = false
 
+    @Inject
+    lateinit var sessionManager: SessionManager
+
     private var presenter: LoginActivityContract.Presenter? = null
 
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_AmateriApp)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-        val  sessionManager = SessionManager(this)
 
         // Check if the user is already logged in
-        val token = sessionManager.fetchAuthToken()
+        val token = sessionManager.getToken()
         if(token != "null"){
 
     startActivity(Intent(this, AlbumActivity::class.java))
@@ -82,9 +85,9 @@ finish()
             presenter = LoginActivityPresenter(this, LoginRepository(api),
                 Login(s,s1), sessionManager)
 
-            lifecycleScope.launchWhenCreated {
+
                 presenter!!.requestDataFromServer()
-            }
+
 
         }
 

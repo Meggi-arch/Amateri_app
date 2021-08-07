@@ -5,14 +5,15 @@ import com.example.amateriapp.data.model.AlbumList
 import com.example.amateriapp.data.network.AmaterApi
 import com.example.amateriapp.utility.AlbumActivityContract
 import com.example.amateriapp.utility.Constant.TAG
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.scopes.ActivityScoped
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
 @ActivityScoped
-class AlbumRepository(private var api: AmaterApi) : AlbumActivityContract.ApiListener {
+class AlbumRepository @Inject constructor(private var api: AmaterApi) : AlbumActivityContract.ApiListener {
 
     override fun getNoticeList(
         onFinishedListener: AlbumActivityContract.ApiListener.OnFinishedListener?,
@@ -25,7 +26,7 @@ class AlbumRepository(private var api: AmaterApi) : AlbumActivityContract.ApiLis
             "Basic ZGV2OmRldmRldg==",
             "A3357xuZjV",
             "application/json",
-            "${sessionManager.fetchAuthToken()}",
+            sessionManager.getToken(),
             90,
             0
         )
@@ -72,15 +73,6 @@ class AlbumRepository(private var api: AmaterApi) : AlbumActivityContract.ApiLis
 
 })
 
-
-
-
-
-
     }
-
-
-
-
     }
 

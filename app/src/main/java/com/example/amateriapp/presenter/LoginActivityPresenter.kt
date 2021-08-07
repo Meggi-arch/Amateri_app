@@ -4,7 +4,7 @@ package com.example.amateriapp.presenter
 import com.example.amateriapp.data.model.Login
 import com.example.amateriapp.data.model.User
 import com.example.amateriapp.utility.LoginActivityContract
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 import javax.inject.Inject
 
 class LoginActivityPresenter @Inject constructor(private var mainView: LoginActivityContract.MainView,
@@ -16,7 +16,7 @@ class LoginActivityPresenter @Inject constructor(private var mainView: LoginActi
 
 
     //Introduce the data obtained by the model layer to the view layer
-    override suspend fun requestDataFromServer() {
+    override fun requestDataFromServer() {
 
         getNoticeIntractor.getNoticeList(this,login,sessionManager)
 

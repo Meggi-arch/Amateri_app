@@ -20,7 +20,7 @@ import com.example.amateriapp.utility.AlbumActivityContract
 import com.example.amateriapp.utility.Constant.TAG
 import com.example.amateriapp.utility.Constant.USER_ID
 import com.example.amateriapp.utility.RecyclerItemClickListener
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -37,12 +37,17 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
     @Inject
     var internet: Boolean = false
 
+    @Inject
+    lateinit var sessionManager: SessionManager
+
+
     private var presenter: AlbumActivityContract.Presenter? = null
 
     private lateinit var binding: ActivityAlbumBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_AmateriApp)
         setContentView(R.layout.activity_album)
         binding = ActivityAlbumBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -53,16 +58,16 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
             Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
         }
 
-        val  sessionManager = SessionManager(this)
 
         presenter = AlbumActivityPresenter(this, AlbumRepository(api),sessionManager)
 
-           (presenter as AlbumActivityPresenter).requestDataFromServer()
+
+            (presenter as AlbumActivityPresenter).requestDataFromServer()
 
 
         binding.logout.setOnClickListener {
 
-            sessionManager.saveAuthToken("null")
+            sessionManager.setToken("null")
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
 
@@ -83,7 +88,7 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
      * RecyclerItem click event listener
      */
 
-    private val recyclerItemClickListener: RecyclerItemClickListener =
+     val recyclerItemClickListener: RecyclerItemClickListener =
         object : RecyclerItemClickListener {
 
 
@@ -110,7 +115,7 @@ Log.d(TAG, notice?.id.toString())
 
         runOnUiThread {
 
-        val adapter = AlbumAdapter(recyclerItemClickListener)
+         val adapter = AlbumAdapter(recyclerItemClickListener)
 
         adapter.albums = noticeArrayList
 

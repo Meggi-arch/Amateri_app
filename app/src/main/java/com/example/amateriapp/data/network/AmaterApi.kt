@@ -6,7 +6,6 @@ import retrofit2.http.*
 
 interface AmaterApi {
 
-
     @POST("users/login")
      fun createAmaterApi(@Header("Accept") accept: String,
                       @Header("X-App-ID") xapp: String,
@@ -17,7 +16,7 @@ interface AmaterApi {
 
 
      @GET("albums/extended")
-    fun getAlbumInfo(@Header("Accept") accept: String,
+     fun getAlbumInfo(@Header("Accept") accept: String,
                       @Header("User-Agent") user_agent: String,
                       @Header("Authorization") authorization: String,
                       @Header("X-App-ID") xapp: String,
@@ -28,7 +27,7 @@ interface AmaterApi {
 
 
     @GET("album/{id}/extended")
-    fun getAlbumDetail(@Header("Accept") accept: String,
+     fun getAlbumDetail(@Header("Accept") accept: String,
                      @Header("User-Agent") user_agent: String,
                      @Header("Authorization") authorization: String,
                      @Header("X-App-ID") xapp: String,

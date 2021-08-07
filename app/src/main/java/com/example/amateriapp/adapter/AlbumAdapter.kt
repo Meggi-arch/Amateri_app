@@ -11,9 +11,10 @@ import com.example.amateriapp.databinding.AlbumItemBinding
 import com.example.amateriapp.utility.RecyclerItemClickListener
 import com.squareup.picasso.Picasso
 import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-
-class AlbumAdapter(private var recyclerItemClickListener: RecyclerItemClickListener?): RecyclerView.Adapter<AlbumAdapter.TodoViewHolder>() {
+class AlbumAdapter @Inject constructor(private var recyclerItemClickListener: RecyclerItemClickListener?): RecyclerView.Adapter<AlbumAdapter.TodoViewHolder>() {
 
 
 

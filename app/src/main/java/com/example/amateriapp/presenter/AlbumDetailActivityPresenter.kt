@@ -2,7 +2,7 @@ package com.example.amateriapp.presenter
 
 import com.example.amateriapp.data.model.AlbumDetail
 import com.example.amateriapp.utility.AlbumDetailActivityContract
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 
 class AlbumDetailActivityPresenter(
     private var mainView: AlbumDetailActivityContract.MainView,

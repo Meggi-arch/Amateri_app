@@ -6,7 +6,7 @@ import com.example.amateriapp.data.model.User
 import com.example.amateriapp.data.network.AmaterApi
 import com.example.amateriapp.utility.Constant.TAG
 import com.example.amateriapp.utility.LoginActivityContract
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.scopes.ActivityScoped
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,7 +42,7 @@ class LoginRepository @Inject constructor(private var api: AmaterApi) : LoginAct
 
                     if (response.code() == 201){
 
-                        sessionManager.saveAuthToken(response.body()!!.token)
+                        sessionManager.setToken(response.body()!!.token)
 
                         Log.d(TAG,"Token" + response.body()!!.token)
 

@@ -1,13 +1,14 @@
 package com.example.amateriapp.utility
 
 import com.example.amateriapp.data.model.Album
+import com.example.amateriapp.utility.preferences.SessionManager
 
 interface AlbumActivityContract {
     /**
      * Call when user interact with the view
      * */
     interface Presenter {
-         fun requestDataFromServer()
+          fun requestDataFromServer()
     }
 
     /**

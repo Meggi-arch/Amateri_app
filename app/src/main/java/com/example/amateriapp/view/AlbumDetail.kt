@@ -20,7 +20,7 @@ import com.example.amateriapp.presenter.AlbumDetailActivityPresenter
 import com.example.amateriapp.repository.AlbumDetailRepository
 import com.example.amateriapp.utility.AlbumDetailActivityContract
 import com.example.amateriapp.utility.Constant.USER_ID
-import com.example.amateriapp.utility.SessionManager
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
@@ -36,12 +36,16 @@ class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView  {
     @Inject
     var internet: Boolean = false
 
+    @Inject
+    lateinit var sessionManager: SessionManager
+
     private var presenter: AlbumDetailActivityContract.Presenter? = null
 
     private lateinit var binding: ActivityAlbumDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_AmateriApp)
         binding = ActivityAlbumDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -54,12 +58,14 @@ class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView  {
         }
         val id = intent.getIntExtra(USER_ID,0)
 
-        val  sessionManager = SessionManager(this)
+
 
         presenter = AlbumDetailActivityPresenter(this, AlbumDetailRepository(api),sessionManager,id)
 
 
-        (presenter as AlbumDetailActivityPresenter).requestDataFromServer()
+    (presenter as AlbumDetailActivityPresenter).requestDataFromServer()
+
+
 
 
         binding.backArrowAlbumDetail.setOnClickListener { onBackPressed() }

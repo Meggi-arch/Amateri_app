@@ -1,14 +1,17 @@
 package com.example.amateriapp.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import com.example.amateriapp.R
 import com.example.amateriapp.data.network.AmaterApi
 import com.example.amateriapp.repository.AlbumDetailRepository
 import com.example.amateriapp.repository.AlbumRepository
 import com.example.amateriapp.repository.LoginRepository
 import com.example.amateriapp.utility.Constant.BASE_URL
 import com.example.amateriapp.utility.Constant.BASE_URL_ALBUM
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +24,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule{
+object AppModule{
 
 
     @Singleton
@@ -88,4 +91,18 @@ class AppModule{
 
         return connected
     }
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(@ApplicationContext context: Context) =
+        context.getSharedPreferences(
+            context.getString(R.string.app_name), Context.MODE_PRIVATE
+        )
+
+
+    @Singleton
+    @Provides
+    fun provideSessionManager(preferences: SharedPreferences) =
+        SessionManager(preferences)
+
 }

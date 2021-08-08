@@ -15,5 +15,5 @@ Použité knihovny:
 - Picasso
 
 
-APK soubor je v App/release
+Apk. soubor je v app/release
 

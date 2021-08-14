@@ -1,13 +1,18 @@
 package com.example.amateriapp.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+/** Model data class represents album of images
+ *  Also as entity for DB */
 data class Album(
+    val id: Int,
     val category: String,
     val category_id: Int,
     val commentAllowed: Boolean,
     val comments_count: Int,
     val count_view: Int,
     val description: String,
-    val id: Int,
     val images_count: Int,
     val lang: String,
     val statusId: Int,

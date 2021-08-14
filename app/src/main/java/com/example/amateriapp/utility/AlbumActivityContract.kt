@@ -32,6 +32,6 @@ interface AlbumActivityContract {
              fun onFailure(t: String)
         }
 
-         fun getNoticeList(onFinishedListener: OnFinishedListener?, sessionManager: SessionManager)
+         fun getNoticeList(onFinishedListener: OnFinishedListener?, sessionManager: SessionManager,albumSort: AlbumSort)
     }
 }

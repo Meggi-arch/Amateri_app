@@ -1,5 +1,6 @@
 package com.example.amateriapp.view
 
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
@@ -12,16 +13,18 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.amateriapp.R
 import com.example.amateriapp.adapter.AlbumAdapter
 import com.example.amateriapp.data.model.Album
-import com.example.amateriapp.data.network.AmaterApi
+import com.example.amateriapp.data.network.AlbumApi
 import com.example.amateriapp.databinding.ActivityAlbumBinding
 import com.example.amateriapp.presenter.AlbumActivityPresenter
 import com.example.amateriapp.repository.AlbumRepository
 import com.example.amateriapp.utility.AlbumActivityContract
+import com.example.amateriapp.utility.AlbumSort
 import com.example.amateriapp.utility.Constant.TAG
 import com.example.amateriapp.utility.Constant.USER_ID
-import com.example.amateriapp.utility.RecyclerItemClickListener
+import com.example.amateriapp.utility.RecyclerItemCallback
 import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -29,9 +32,14 @@ import javax.inject.Named
 @AndroidEntryPoint
 class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
 
+
     @Inject
     @Named("album")
-    lateinit var api: AmaterApi
+    lateinit var api: AlbumApi
+
+    @Inject
+    @Named("albumDetail")
+    lateinit var apiDetail: AlbumApi
 
     @JvmField
     @Inject
@@ -58,28 +66,47 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
             Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
         }
 
-
-        presenter = AlbumActivityPresenter(this, AlbumRepository(api),sessionManager)
-
-
-            (presenter as AlbumActivityPresenter).requestDataFromServer()
+        presenter = AlbumActivityPresenter(this, AlbumRepository(api),sessionManager, AlbumSort.COMMENTS)
 
 
-        binding.logout.setOnClickListener {
+        (presenter as AlbumActivityPresenter).requestDataFromServer()
 
-            sessionManager.setToken("null")
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-
-        }
+        setupButtons()
     }
 
+    /** Setups buttons on click listeners */
+    private fun setupButtons(){
+
+        // Logout alert dialog
+        binding.logout.setOnClickListener {
+
+            AlertDialog.Builder(this)
+                .setTitle(getString(R.string.logout))
+                .setMessage(getString(R.string.logout_dialog))
+                .setPositiveButton(getString(R.string.yes)
+                ) { _, _ ->
+
+                    // Logout
+                    sessionManager.setToken("null")
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+
+                }
+                .setNegativeButton(getString(R.string.no), null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show()
+        }
+
+
+
+    }
     /**
      *  Initialize RecyclerView
      */
     private fun initializeRecyclerView() {
 
         val layoutManager: RecyclerView.LayoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+
         binding.gridRecyclerviewAlbum.layoutManager = layoutManager
 
     }
@@ -88,8 +115,8 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
      * RecyclerItem click event listener
      */
 
-     val recyclerItemClickListener: RecyclerItemClickListener =
-        object : RecyclerItemClickListener {
+     val recyclerItemCallback: RecyclerItemCallback =
+        object : RecyclerItemCallback {
 
 
             override fun onItemClick(notice: Album?) {
@@ -101,7 +128,12 @@ Log.d(TAG, notice?.id.toString())
 
 
             }
+
+            override fun loadNextPage() {
+                TODO("Not yet implemented")
+            }
         }
+
 
     override fun showProgress() {
   binding.progressBar2.visibility = View.VISIBLE
@@ -111,13 +143,18 @@ Log.d(TAG, notice?.id.toString())
         binding.progressBar2.visibility = View.GONE
     }
 
+
+    /** Setups Album list recycler view */
     override fun setDataToRecyclerView(noticeArrayList: List<Album>) {
 
         runOnUiThread {
 
-         val adapter = AlbumAdapter(recyclerItemClickListener)
 
+
+
+            val adapter = AlbumAdapter(recyclerItemCallback)
         adapter.albums = noticeArrayList
+
 
         binding.gridRecyclerviewAlbum.adapter = adapter
 }

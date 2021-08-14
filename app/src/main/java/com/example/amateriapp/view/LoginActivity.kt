@@ -7,10 +7,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.amateriapp.R
 import com.example.amateriapp.data.model.Login
-import com.example.amateriapp.data.network.AmaterApi
+import com.example.amateriapp.data.network.LoginApi
 import com.example.amateriapp.databinding.ActivityLoginBinding
 import com.example.amateriapp.presenter.LoginActivityPresenter
 import com.example.amateriapp.repository.LoginRepository
@@ -20,13 +19,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named
 
-
+/** Activity to login
+ *  Contains login form - gets user info with token
+ *  Opens album after successful login */
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
 
     @Inject
     @Named("login")
-    lateinit var api: AmaterApi
+    lateinit var api: LoginApi
 
     @JvmField
     @Inject
@@ -46,31 +47,39 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
         setContentView(binding.root)
 
 
+        checkToken()
+        setupButtons()
 
-        // Check if the user is already logged in
-        val token = sessionManager.getToken()
-        if(token != "null"){
 
-    startActivity(Intent(this, AlbumActivity::class.java))
-finish()
+
     }
 
 
-       binding.button.setOnClickListener{
+    /** Check if the user is already logged in  */
+    private fun checkToken(){
+        val token = sessionManager.getToken()
+        if(token != "null"){
 
-           val username = binding.editTextUsernameLogin.text.toString()
-           val password = binding.editTextPasswordLogin.text.toString()
+            startActivity(Intent(this, AlbumActivity::class.java))
+            finish()
+        }
+    }
 
-           if(internet){
-               validateInputs(username,password,sessionManager)
-           }else{
-               Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
-           }
+    /** Setups buttons on click listeners */
+    private fun setupButtons(){
+        binding.button.setOnClickListener{
+
+            val username = binding.editTextUsernameLogin.text.toString()
+            val password = binding.editTextPasswordLogin.text.toString()
+
+            if(internet){
+                validateInputs(username,password,sessionManager)
+            }else{
+                Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
+            }
 
 
         }
-
-
     }
 
     /**
@@ -103,6 +112,7 @@ finish()
         binding.progressBar.visibility = View.GONE
     }
 
+    /** Loads Albums Activity and finish login activity */
     override fun onResponseSucces() {
     startActivity(Intent(this, AlbumActivity::class.java))
         finish()

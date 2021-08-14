@@ -14,7 +14,7 @@ import com.example.amateriapp.R
 import com.example.amateriapp.adapter.AlbumCommentsAdapter
 import com.example.amateriapp.adapter.AlbumFotosAdapter
 import com.example.amateriapp.data.model.AlbumDetail
-import com.example.amateriapp.data.network.AmaterApi
+import com.example.amateriapp.data.network.AlbumApi
 import com.example.amateriapp.databinding.ActivityAlbumDetailBinding
 import com.example.amateriapp.presenter.AlbumDetailActivityPresenter
 import com.example.amateriapp.repository.AlbumDetailRepository
@@ -26,11 +26,11 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @AndroidEntryPoint
-class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView  {
+class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView {
 
     @Inject
     @Named("albumDetail")
-    lateinit var api: AmaterApi
+    lateinit var api: AlbumApi
 
     @JvmField
     @Inject
@@ -56,21 +56,24 @@ class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView  {
         if(!internet){
             Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
         }
-        val id = intent.getIntExtra(USER_ID,0)
 
+        val id = intent.getIntExtra(USER_ID,0)
 
 
         presenter = AlbumDetailActivityPresenter(this, AlbumDetailRepository(api),sessionManager,id)
 
-
     (presenter as AlbumDetailActivityPresenter).requestDataFromServer()
 
+        setupButtons()
 
+    }
 
-
+    /** Setups buttons on click listeners */
+    private fun setupButtons(){
         binding.backArrowAlbumDetail.setOnClickListener { onBackPressed() }
     }
 
+    /** Initialize fotos recyclerview  */
     private fun initializeRecyclerViewFotos() {
 
         val layoutManager: RecyclerView.LayoutManager = StaggeredGridLayoutManager(2,
@@ -80,6 +83,7 @@ class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView  {
 
     }
 
+    /** Initialize comments recyclerview  */
     private fun initializeRecyclerViewComments() {
 
         val layoutManagerLinear: RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -105,18 +109,20 @@ class AlbumDetail : AppCompatActivity(), AlbumDetailActivityContract.MainView  {
         Log.d(ContentValues.TAG, message)
     }
 
+    /** Setups Album images and comments recycler view */
     override fun setDataToRecyclerView(data: AlbumDetail?) {
 
         runOnUiThread {
 if(data != null){
 
-
+    // Setup fotos recyclerview
     val adapter = AlbumFotosAdapter()
 
     adapter.fotos = data.images
 
         binding.albumFotos.adapter = adapter
 
+    // Setup comments recyclerview
     val adapterComments = AlbumCommentsAdapter()
 
     adapterComments.comments = data.comments
@@ -131,6 +137,7 @@ if(data != null){
 
 
     }
+
 
     @SuppressLint("SetTextI18n")
     override fun setData(data: AlbumDetail?) {

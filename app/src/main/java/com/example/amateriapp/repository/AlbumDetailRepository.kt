@@ -2,7 +2,6 @@ package com.example.amateriapp.repository
 
 import android.util.Log
 import com.example.amateriapp.data.model.AlbumDetail
-import com.example.amateriapp.data.network.AmaterApi
 import com.example.amateriapp.utility.AlbumDetailActivityContract
 import com.example.amateriapp.utility.Constant.TAG
 import com.example.amateriapp.utility.preferences.SessionManager
@@ -11,9 +10,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
+import com.example.amateriapp.data.network.AlbumApi
+
 
 @ActivityScoped
-class AlbumDetailRepository @Inject constructor(private var api: AmaterApi) : AlbumDetailActivityContract.ApiListener {
+class AlbumDetailRepository @Inject constructor(private var api: AlbumApi) : AlbumDetailActivityContract.ApiListener {
+
 
     override fun getNoticeList(
         onFinishedListener: AlbumDetailActivityContract.ApiListener.OnFinishedListener?,
@@ -21,38 +23,34 @@ class AlbumDetailRepository @Inject constructor(private var api: AmaterApi) : Al
         id: Int
     ) {
 
-        val call = api.getAlbumDetail( "application/json",
-            "Amateri/cURL",
-            "Basic ZGV2OmRldmRldg==",
-            "A3357xuZjV",
-            "application/json",
+        val call = api.getAlbumDetail(
             sessionManager.getToken(),
-            id,
-            1)
+            id
+        )
 
-        call.enqueue(object: Callback<AlbumDetail> {
+        call.enqueue(object : Callback<AlbumDetail> {
             override fun onResponse(call: Call<AlbumDetail>, response: Response<AlbumDetail>) {
 
-                if(response.isSuccessful && response.body() != null) {
+                if (response.isSuccessful && response.body() != null) {
 
-                    if (response.code() == 200){
+                    if (response.code() == 200) {
 
 
                         val responseFromAPI: AlbumDetail? = response.body()
 
                         Log.d(TAG, id.toString())
 
-                        Log.d(TAG,"Response code album " +response.code().toString())
+                        Log.d(TAG, "Response code album " + response.code().toString())
 
 
                         onFinishedListener?.onFinished(responseFromAPI)
 
-                    }else{
-                        Log.d(TAG,"Response code album " + response.code().toString())
+                    } else {
+                        Log.d(TAG, "Response code album " + response.code().toString())
                         onFinishedListener!!.onFailure("Error")
                     }
-                }else{
-                    Log.d(TAG,"Response code album " + response.code().toString())
+                } else {
+                    Log.d(TAG, "Response code album " + response.code().toString())
                     onFinishedListener!!.onFailure("Error")
                 }
 
@@ -66,4 +64,8 @@ class AlbumDetailRepository @Inject constructor(private var api: AmaterApi) : Al
 
         })
     }
+
+
 }
+
+

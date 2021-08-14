@@ -1,5 +1,6 @@
 package com.example.amateriapp.utility
 
+
 object Constant {
     const val BASE_URL = "https://android.amateri.dev/api/rest2/"
     const val TAG = "TAG"

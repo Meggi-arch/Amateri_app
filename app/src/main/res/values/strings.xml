@@ -1,9 +1,16 @@
 <resources>
-    <string name="app_name">Amateri app</string>
+    <string name="app_name">Amateri.com</string>
     <string name="log_in">Log in</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="interent">Check your internet connection</string>
     <string name="error">\"Something went wrong...Error message: \"</string>
     <string name="comments">Comments</string>
+    <string name="sort">Sort</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+    <string name="logout_dialog">Are you sure you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

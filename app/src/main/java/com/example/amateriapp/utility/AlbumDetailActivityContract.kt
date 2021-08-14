@@ -2,6 +2,7 @@ package com.example.amateriapp.utility
 
 
 import com.example.amateriapp.data.model.AlbumDetail
+import com.example.amateriapp.data.model.User
 import com.example.amateriapp.utility.preferences.SessionManager
 
 interface AlbumDetailActivityContract {

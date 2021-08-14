@@ -3,7 +3,7 @@ package com.example.amateriapp.repository
 import android.util.Log
 import com.example.amateriapp.data.model.Login
 import com.example.amateriapp.data.model.User
-import com.example.amateriapp.data.network.AmaterApi
+import com.example.amateriapp.data.network.LoginApi
 import com.example.amateriapp.utility.Constant.TAG
 import com.example.amateriapp.utility.LoginActivityContract
 import com.example.amateriapp.utility.preferences.SessionManager
@@ -13,9 +13,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+/** Repository to get data about Logged user */
 @ActivityScoped
-class LoginRepository @Inject constructor(private var api: AmaterApi) : LoginActivityContract.ApiListener{
-
+class LoginRepository @Inject constructor(private var api: LoginApi) : LoginActivityContract.ApiListener{
 
 
     override fun getNoticeList(
@@ -34,7 +34,7 @@ class LoginRepository @Inject constructor(private var api: AmaterApi) : LoginAct
 
 
 // on below line we are executing our method.
-        call.enqueue(object : Callback<User?> {
+        call?.enqueue(object : Callback<User?> {
             override fun onResponse(call: Call<User?>?, response: Response<User?>) {
 
 

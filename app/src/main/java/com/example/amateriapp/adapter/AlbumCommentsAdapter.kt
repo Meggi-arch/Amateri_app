@@ -9,7 +9,7 @@ import com.example.amateriapp.data.model.Comment
 import com.example.amateriapp.databinding.CommentItemBinding
 
 
-class AlbumCommentsAdapter: RecyclerView.Adapter<AlbumCommentsAdapter.CommentViewHolder>() {
+class AlbumCommentsAdapter() : RecyclerView.Adapter<AlbumCommentsAdapter.CommentViewHolder>() {
 
 
 

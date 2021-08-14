@@ -15,9 +15,11 @@ class LoginActivityPresenter @Inject constructor(private var mainView: LoginActi
 
 
 
-    //Introduce the data obtained by the model layer to the view layer
-    override fun requestDataFromServer() {
+/**
+ * Introduce the data obtained by the model layer to the view layer
+ * */
 
+    override fun requestDataFromServer() {
         getNoticeIntractor.getNoticeList(this,login,sessionManager)
 
     }

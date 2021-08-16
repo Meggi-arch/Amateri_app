@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.amateriapp.data.model.Image
 import com.example.amateriapp.databinding.AlbumFotoItemBinding
 import com.squareup.picasso.Picasso
-import java.lang.Exception
 
+
+/**
+ * Recycler adapter for list of fotos
+ */
 class AlbumFotosAdapter: RecyclerView.Adapter<AlbumFotosAdapter.FotoViewHolder>() {
 
 
-
+    /** View holder for album preview */
     inner class FotoViewHolder(val binding: AlbumFotoItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     private val diffCallback = object : DiffUtil.ItemCallback<Image>() {
@@ -34,6 +37,7 @@ class AlbumFotosAdapter: RecyclerView.Adapter<AlbumFotosAdapter.FotoViewHolder>(
 
     override fun getItemCount() = fotos.size
 
+    /** Creates layout */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FotoViewHolder {
         return FotoViewHolder(
             AlbumFotoItemBinding.inflate(
@@ -43,6 +47,9 @@ class AlbumFotosAdapter: RecyclerView.Adapter<AlbumFotosAdapter.FotoViewHolder>(
         ))
     }
 
+
+
+    /** Binds object and listener to item view  */
     override fun onBindViewHolder(holder: FotoViewHolder, position: Int) {
 
         holder.binding.apply {
@@ -54,11 +61,13 @@ class AlbumFotosAdapter: RecyclerView.Adapter<AlbumFotosAdapter.FotoViewHolder>(
                     imageViewAlbumFoto.visibility = View.VISIBLE
                 }
 
-                override fun onError(e: Exception?) {
-                    TODO("Not yet implemented")
-                }
+                // Not implemented
+                override fun onError(e: Exception?) {}
 
             })
+
+
+
 
         }
     }

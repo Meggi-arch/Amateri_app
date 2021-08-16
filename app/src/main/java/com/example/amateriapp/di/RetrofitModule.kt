@@ -33,7 +33,6 @@ object RetrofitModule {
     /** Provides login retrofit with Gson and base url for api calls */
     @Singleton
     @Provides
-    @Named("login")
     fun provideLoginApi(): LoginApi {
         return  Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())

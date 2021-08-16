@@ -1,5 +1,6 @@
 package com.example.amateriapp.utility
 
+import android.content.Context
 import com.example.amateriapp.data.model.Album
 import com.example.amateriapp.utility.preferences.SessionManager
 
@@ -32,6 +33,8 @@ interface AlbumActivityContract {
              fun onFailure(t: String)
         }
 
-         fun getNoticeList(onFinishedListener: OnFinishedListener?, sessionManager: SessionManager,albumSort: AlbumSort)
+        fun getUser(userId: Int, albumId:Int, userInfo: UserCallback)
+
+         fun getAlbum(onFinishedListener: OnFinishedListener?,albumSort: AlbumSort)
     }
 }

@@ -9,7 +9,4 @@ interface RecyclerItemCallback {
     /** Called when item is selected */
     fun onItemClick(notice: Album?)
 
-    /** Called when loading end of data set is near */
-    fun loadNextPage()
-
 }

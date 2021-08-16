@@ -32,7 +32,7 @@ object AppModule{
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(@ApplicationContext context: Context) =
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences(
             context.getString(R.string.app_name), Context.MODE_PRIVATE
         )

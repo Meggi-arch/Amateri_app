@@ -12,14 +12,16 @@ import retrofit2.Response
 import javax.inject.Inject
 import com.example.amateriapp.data.network.AlbumApi
 
-
+/** Repository for album detail*/
 @ActivityScoped
-class AlbumDetailRepository @Inject constructor(private var api: AlbumApi) : AlbumDetailActivityContract.ApiListener {
+class AlbumDetailRepository @Inject constructor(
+    private var api: AlbumApi,
+    private var sessionManager: SessionManager
+) : AlbumDetailActivityContract.ApiListener {
 
-
-    override fun getNoticeList(
+    /** Gets album detail */
+    override fun getAlbumDetail(
         onFinishedListener: AlbumDetailActivityContract.ApiListener.OnFinishedListener?,
-        sessionManager: SessionManager,
         id: Int
     ) {
 

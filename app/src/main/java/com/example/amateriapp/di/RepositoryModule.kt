@@ -5,6 +5,8 @@ import com.example.amateriapp.data.network.LoginApi
 import com.example.amateriapp.repository.AlbumDetailRepository
 import com.example.amateriapp.repository.AlbumRepository
 import com.example.amateriapp.repository.LoginRepository
+import com.example.amateriapp.room.AlbumsDao
+import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,24 +22,25 @@ object RepositoryModule {
     /** Provides album detail repository */
     @Singleton
     @Provides
-  //  @Named("albumDetail")
     fun provideAlbumDetailRepository(
-        api: AlbumApi
-    ) = AlbumDetailRepository(api)
+        api: AlbumApi,
+        sessionManager: SessionManager
+    ) = AlbumDetailRepository(api,sessionManager)
 
     /** Provides login repository */
     @Singleton
     @Provides
-    @Named("login")
     fun provideLoginRepository(
-        api: LoginApi
-    ) = LoginRepository(api)
+        api: LoginApi,
+sessionManager: SessionManager
+    ) = LoginRepository(api,sessionManager)
 
     /** Provides album repository */
     @Singleton
     @Provides
- //   @Named("album")
     fun provideAlbumRepository(
-        api: AlbumApi
-    ) = AlbumRepository(api)
+        api: AlbumApi,
+        sessionManager: SessionManager,
+        albumsDao: AlbumsDao,
+    ) = AlbumRepository(api,sessionManager,albumsDao)
 }

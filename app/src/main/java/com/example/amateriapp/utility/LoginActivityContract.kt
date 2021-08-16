@@ -36,7 +36,7 @@ interface LoginActivityContract {
                 fun onResponseFailure()
             }
 
-             fun getNoticeList(onFinishedListener: OnFinishedListener?, login: Login, sessionManager: SessionManager)
+             fun login(onFinishedListener: OnFinishedListener?, login: Login)
         }
 
 

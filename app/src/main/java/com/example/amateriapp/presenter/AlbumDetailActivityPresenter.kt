@@ -4,11 +4,11 @@ import com.example.amateriapp.data.model.AlbumDetail
 import com.example.amateriapp.data.model.User
 import com.example.amateriapp.utility.AlbumDetailActivityContract
 import com.example.amateriapp.utility.preferences.SessionManager
+import javax.inject.Inject
 
-class AlbumDetailActivityPresenter(
+class AlbumDetailActivityPresenter @Inject constructor(
     private var mainView: AlbumDetailActivityContract.MainView,
     private var getNoticeIntractor: AlbumDetailActivityContract.ApiListener,
-    private var sessionManager: SessionManager,
     private val id: Int
 ): AlbumDetailActivityContract.Presenter, AlbumDetailActivityContract.ApiListener.OnFinishedListener {
 
@@ -17,7 +17,7 @@ class AlbumDetailActivityPresenter(
      * */
 
     override fun requestDataFromServer() {
-        getNoticeIntractor.getNoticeList(this, sessionManager,id)
+        getNoticeIntractor.getAlbumDetail(this,id)
 
     }
 

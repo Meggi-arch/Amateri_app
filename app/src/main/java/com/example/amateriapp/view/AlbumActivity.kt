@@ -17,6 +17,7 @@ import com.example.amateriapp.data.network.AlbumApi
 import com.example.amateriapp.databinding.ActivityAlbumBinding
 import com.example.amateriapp.presenter.AlbumActivityPresenter
 import com.example.amateriapp.repository.AlbumRepository
+import com.example.amateriapp.room.AlbumsDao
 import com.example.amateriapp.utility.AlbumActivityContract
 import com.example.amateriapp.utility.AlbumSort
 import com.example.amateriapp.utility.Constant.TAG
@@ -36,6 +37,9 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
     @Inject
     @Named("album")
     lateinit var api: AlbumApi
+
+    @Inject
+    lateinit var albumDao: AlbumsDao
 
     @Inject
     @Named("albumDetail")
@@ -60,18 +64,23 @@ class AlbumActivity : AppCompatActivity(), AlbumActivityContract.MainView {
         binding = ActivityAlbumBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        checkInternet()
+        setup()
         initializeRecyclerView()
-
-        if(!internet){
-            Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
-        }
-
-        presenter = AlbumActivityPresenter(this, AlbumRepository(api),sessionManager, AlbumSort.COMMENTS)
-
-
-        (presenter as AlbumActivityPresenter).requestDataFromServer()
-
         setupButtons()
+    }
+
+    /** Send data to presenter */
+    private fun setup() {
+        presenter = AlbumActivityPresenter(this, AlbumRepository(api, sessionManager,albumDao), AlbumSort.COMMENTS)
+        (presenter as AlbumActivityPresenter).requestDataFromServer()
+    }
+
+    /** Check if user user is connected to network */
+    private fun checkInternet(){
+        if(!internet)
+            Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
+
     }
 
     /** Setups buttons on click listeners */
@@ -129,9 +138,6 @@ Log.d(TAG, notice?.id.toString())
 
             }
 
-            override fun loadNextPage() {
-                TODO("Not yet implemented")
-            }
         }
 
 
@@ -149,10 +155,10 @@ Log.d(TAG, notice?.id.toString())
 
         runOnUiThread {
 
+            val adapter = AlbumAdapter(recyclerItemCallback,
+                AlbumRepository(api, sessionManager, albumDao),
+            this)
 
-
-
-            val adapter = AlbumAdapter(recyclerItemCallback)
         adapter.albums = noticeArrayList
 
 

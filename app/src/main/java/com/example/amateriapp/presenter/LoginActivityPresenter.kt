@@ -9,8 +9,7 @@ import javax.inject.Inject
 
 class LoginActivityPresenter @Inject constructor(private var mainView: LoginActivityContract.MainView,
                                                  private var getNoticeIntractor: LoginActivityContract.ApiListener,
-                                                 private val login: Login,
-                                                 private var sessionManager: SessionManager
+                                                 private val login: Login
 ): LoginActivityContract.Presenter, LoginActivityContract.ApiListener.OnFinishedListener {
 
 
@@ -20,7 +19,7 @@ class LoginActivityPresenter @Inject constructor(private var mainView: LoginActi
  * */
 
     override fun requestDataFromServer() {
-        getNoticeIntractor.getNoticeList(this,login,sessionManager)
+        getNoticeIntractor.login(this,login)
 
     }
 

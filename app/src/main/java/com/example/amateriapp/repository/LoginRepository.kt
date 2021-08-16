@@ -13,15 +13,17 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-/** Repository to get data about Logged user */
+/** Repository for login */
 @ActivityScoped
-class LoginRepository @Inject constructor(private var api: LoginApi) : LoginActivityContract.ApiListener{
+class LoginRepository @Inject constructor(
+    private var api: LoginApi,
+    private var sessionManager: SessionManager
+) : LoginActivityContract.ApiListener{
 
 
-    override fun getNoticeList(
+    override fun login(
         onFinishedListener: LoginActivityContract.ApiListener.OnFinishedListener?,
-        login: Login,
-        sessionManager: SessionManager
+        login: Login
     ) {
 
 
@@ -34,7 +36,7 @@ class LoginRepository @Inject constructor(private var api: LoginApi) : LoginActi
 
 
 // on below line we are executing our method.
-        call?.enqueue(object : Callback<User?> {
+        call.enqueue(object : Callback<User?> {
             override fun onResponse(call: Call<User?>?, response: Response<User?>) {
 
 

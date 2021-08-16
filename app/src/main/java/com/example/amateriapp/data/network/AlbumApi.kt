@@ -21,9 +21,5 @@ interface AlbumApi {
     @GET("album/{id}/extended")
     fun getAlbumDetail(@Header("X-Token") token: String,
                        @Path("id") albumId: Int): Call<AlbumDetail>
-
-    @Headers("X-App-ID: A3357xuZjV", "Authorization: Basic ZGV2OmRldmRldg==", "Accept: application/json")
-    @GET("album/{id}/extended")
-    fun getUsers(@Header("X-Token") token: String,
-                       @Path("id") albumId: Int): AlbumDetail
+    
 }

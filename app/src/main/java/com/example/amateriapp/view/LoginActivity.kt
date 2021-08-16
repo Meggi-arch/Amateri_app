@@ -17,7 +17,6 @@ import com.example.amateriapp.utility.LoginActivityContract
 import com.example.amateriapp.utility.preferences.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import javax.inject.Named
 
 /** Activity to login
  *  Contains login form - gets user info with token
@@ -26,7 +25,6 @@ import javax.inject.Named
 class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
 
     @Inject
-    @Named("login")
     lateinit var api: LoginApi
 
     @JvmField
@@ -46,10 +44,8 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         checkToken()
         setupButtons()
-
 
 
     }
@@ -73,7 +69,7 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
             val password = binding.editTextPasswordLogin.text.toString()
 
             if(internet){
-                validateInputs(username,password,sessionManager)
+                validateInputs(username,password)
             }else{
                 Toast.makeText(this, getString(R.string.interent), Toast.LENGTH_LONG).show()
             }
@@ -85,14 +81,14 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
     /**
      * Validate inputs
      */
-    private fun validateInputs(s: String, s1: String,sessionManager: SessionManager) {
+    private fun validateInputs(s: String, s1: String) {
 
         if(s.isNotEmpty() || s1.isNotEmpty()){
 
             showProgress()
 
-            presenter = LoginActivityPresenter(this, LoginRepository(api),
-                Login(s,s1), sessionManager)
+            presenter = LoginActivityPresenter(this, LoginRepository(api, sessionManager),
+                Login(s,s1))
 
 
                 presenter!!.requestDataFromServer()
@@ -106,14 +102,17 @@ class LoginActivity : AppCompatActivity(), LoginActivityContract.MainView {
 
     override fun showProgress() {
        binding.progressBar.visibility = View.VISIBLE
+        binding.button.text = ""
     }
 
     override fun hideProgress() {
         binding.progressBar.visibility = View.GONE
+
     }
 
     /** Loads Albums Activity and finish login activity */
     override fun onResponseSucces() {
+        binding.button.text = getString(R.string.loginSuc)
     startActivity(Intent(this, AlbumActivity::class.java))
         finish()
     }

@@ -7,5 +7,5 @@ object Constant {
     const val BASE_URL_ALBUM = "https://android.amateri.dev/api/rest/v6/"
     const val USER_ID = "USER_ID"
     const val USER_TOKEN = "user_token"
-
+    const val DATABASE_NAME = "amateriDatabase"
 }

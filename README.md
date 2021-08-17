@@ -12,6 +12,7 @@ Použité knihovny:
 - **MVP** Architektura
 - **Dagger** - Hilt to Dependency injection
 - **Retrofit** to access data from server
+- **Room** to store data 
 - **Picasso** for loading images https://square.github.io/picasso/
 
 
